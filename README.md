@@ -84,8 +84,44 @@ props: Pick<TodoType, "userId" | "title" | "completed">
 props: Omit<TodoType, "id">
 ```
 
+### コンポーネント自体の型指定
+
+```
+export const Text: FC<Props> = (props) => {
+    const { color, fontSize } = props;
+    return <p style={{color, fontSize}}>テキストです</p>;
+};
+```
+
+```
+export const Todo: FC<Omit<TodoType, "id">> = (props) => {
+    const { title, userId, completed = false } = props;
+    const completedMark = completed ? "[完]" : "[未]";
+    return <p>{`${completedMark} ${title}(ユーザー:${userId})`}</p>;
+}
+```
+
+- **FC (Functional Components)**  
+関数コンポーネントの型を指定するためのキーワード。  
+(v18以降、**children**プロパティは含まれなくなった)
+
+### Optional Chaining(オプショナルチェイニング)
+「null安全」なコードを書くために用いる。  
+`null`や`undefined`のプロパティを誤って参照しないようにしつつ、記述量を押さえることもできる。
+
+```
+# ?. 演算子
+<dd>{user.hobbies?.join(" / ")}</dd>
+```
+- **?.演算子**  
+プロパティの値が`null`または`undefined`の際に、`undefined`を返す。
+
+- 参考[[optional chaining](https://typescriptbook.jp/reference/values-types-variables/object/optional-chaining)]
+
 
 ## その他
+- [ESLint + Prettier設定](https://amateur-engineer.com/code-formatter-prettier-eslint/)
+- [外部ライブラリの型定義について](https://www.udemy.com/course/react_stepup/learn/lecture/24823614#content)
 ### 相対パス「./~」
 同階層であることを示す。
 
@@ -94,3 +130,5 @@ props: Omit<TodoType, "id">
 ```
 条件式 ? trueの時の値 : falseの時の値;
 ```
+
+
